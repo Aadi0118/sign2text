@@ -26,8 +26,13 @@ except Exception as e:
     model = None
 
 @app.route('/')
+@app.route('/index')
 def index():
     return render_template('index.html')
+
+@app.route('/team')
+def team():
+    return render_template('team.html')
 
 @socketio.on('connect')
 def handle_connect():

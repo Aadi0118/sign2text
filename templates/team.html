@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Sign2Text - Our Team</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="Project Team Members for Sign-2-Text" name="keywords" />
+    <meta content="Meet the team behind the Sign-2-Text project." name="description" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<style>
+    /* --- 1. Global Reset & Variables (Simplified) --- */
+    * {
+        /* Use Poppins for a modern, clean look */
+        font-family: sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Define default variables */
+    :root {
+        --primary-color: #f7b733;
+        /* Gold/Yellow for accent */
+        --background-start: #0f2027;
+        --background-end: #2c5364;
+        --text-color: #f0f0f0;
+        --secondary-color: #6c757d;
+        /* Bootstrap secondary color */
+    }
+
+    /* --- 2. Body & Layout --- */
+    body {
+        min-height: 100vh;
+        /* Rich, deep blue/space gradient */
+        background: linear-gradient(135deg, var(--background-start), #203a43, var(--background-end));
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 15px 70px 15px; /* Added bottom padding for footer */
+        color: var(--text-color);
+    }
+
+    /* Navbar styling for visibility on the dark background */
+    .navbar {
+        background-color: transparent !important;
+    }
+
+    .navbar-brand img {
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+    }
+
+    .navbar-brand h1 {
+        color: var(--text-color) !important;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Navbar Toggle and links */
+    .navbar-toggler {
+        background-color: var(--text-color);
+    }
+    .navbar-nav .nav-link {
+        color: var(--text-color) !important;
+        margin-right: 15px;
+        transition: color 0.3s;
+    }
+    .navbar-nav .nav-link:hover {
+        color: var(--primary-color) !important;
+    }
+
+    /* Team Page Specific Styling */
+    .team-header {
+        padding-top: 150px !important;
+        text-align: center;
+    }
+
+    .text-primary {
+        color: var(--primary-color) !important;
+    }
+
+    .team-member-card {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        height: 100%;
+    }
+
+    .team-member-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .team-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        border: 4px solid var(--primary-color);
+        filter: grayscale(10%);
+    }
+
+    /* Footer styling */
+    .footer-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        color: var(--text-color);
+        text-align: center;
+        padding: 10px 0;
+        z-index: 1020;
+    }
+
+    /* General responsive adjustments */
+    @media (max-width: 992px) {
+        .team-header {
+            padding-top: 100px !important;
+        }
+    }
+</style>
+
+<body>
+    <div class="container-fluid fixed-top" style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        z-index: 1030;
+      ">
+        <div class="container px-0" style="display: flex; justify-content: center; width: 100%">
+            <nav class="navbar navbar-dark navbar-expand-lg" style="
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background-color: rgba(0, 0, 0, 0.5) !important;
+          ">
+                <a href="{{ url_for('index') }}" class="navbar-brand" style="display: flex; align-items: center; text-decoration: none">
+                    <img src="https://i.pinimg.com/736x/a3/40/b7/a340b7e04e7c4b7c3040e2067779cdff.jpg"
+                        alt="College Logo" style="width: 50px; height: 50px; margin-right: 15px" />
+                    <h1 class="text-primary display-6" style="margin: 0; font-size: 1.2rem; color: white">
+                        JSET, Bengaluru
+                    </h1>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+               <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <!-- 🔄 CHANGED: Home nav link now uses url_for('index') -->
+                            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- 🔄 CHANGED: Team nav link now uses url_for('team') for robustness -->
+                            <a class="nav-link active" aria-current="page" href="{{ url_for('team') }}">Our Team</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
+        </div>
+    </div>
+    <div class="container py-5 team-header">
+        <h1 class="display-3 text-primary mb-5"
+            style="text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
+            Meet the Team
+        </h1>
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    <img src="{{ url_for('static', filename='img/aadi.jpg') }}"
+                         alt="Team Member Aadi"
+                         class="team-img">
+                    <h4 class="text-light">Aadi</h4>
+                    <p class="text-primary mb-2">Project Lead / Core Developer</p>
+                    <p>Designed the overall system architecture and managed the deep learning model integration.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    <img src="{{ url_for('static', filename='img/arnab.jpg') }}"
+                         alt="Team Member Arnab Mondal"
+                         class="team-img">
+                    <h4 class="text-light">Arnab Mondal</h4>
+                    <p class="text-primary mb-2">Frontend/UI Specialist</p>
+                    <p>Developed the user interface, real-time video feed display, and interactive controls.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    <img src="{{ url_for('static', filename='img/keshav.jpg') }}"
+                         alt="Team Member Keshav Jindal"
+                         class="team-img">
+                    <h4 class="text-light">Keshav Jindal</h4>
+                    <p class="text-primary mb-2">Backend Engineer / Data Handler</p>
+                    <p>Responsible for Socket.IO implementation and data stream management between model and UI.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="team-member-card">
+                    <img src="{{ url_for('static', filename='img/anthoniraj.jpg') }}"
+                         alt="Project Advisor"
+                         class="team-img">
+                    <h4 class="text-light">AnthonyRaj Sir</h4>
+                    <p class="text-primary mb-2">Project Advisor</p>
+                    <p>Provided technical guidance and supervised the project's academic rigor and scope.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer-container">
+        <p class="mb-0">
+            &copy; <span id="currentYear"></span> Sign-2-Text. All Rights Reserved. Designed by **Aadi**
+        </p>
+    </div>
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
+            class="fa fa-arrow-up"></i></a>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Set the current year for the copyright notice
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+
+</html>
