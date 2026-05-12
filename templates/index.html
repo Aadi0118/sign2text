@@ -9,48 +9,37 @@
     <meta content="A live system for converting sign language gestures into text." name="description" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    </head>
+</head>
 
 <style>
-    /* --- 1. Global Reset & Variables (Simplified) --- */
     * {
-        /* Use Poppins for a modern, clean look */
         font-family: sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
     }
 
-    /* Define default variables */
     :root {
         --primary-color: #f7b733;
-        /* Gold/Yellow for accent */
         --background-start: #0f2027;
         --background-end: #2c5364;
         --text-color: #f0f0f0;
         --secondary-color: #6c757d;
-        /* Bootstrap secondary color */
     }
 
-    /* --- 2. Body & Layout --- */
     body {
         min-height: 100vh;
-        /* Rich, deep blue/space gradient */
         background: linear-gradient(135deg, var(--background-start), #203a43, var(--background-end));
         display: flex;
-        flex-direction: column; /* Added to allow footer at the bottom */
+        flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        /* Align items to start for better top-down flow */
-        padding: 20px 15px 70px 15px; /* Added bottom padding for footer */
+        padding: 20px 15px 70px 15px;
         color: var(--text-color);
-        /* Default text color for the body */
     }
 
-    /* Navbar styling for visibility on the dark background */
     .navbar {
         background-color: transparent !important;
-        /* Make navbar background transparent */
     }
 
     .navbar-brand img {
@@ -59,27 +48,25 @@
 
     .navbar-brand h1 {
         color: var(--text-color) !important;
-        /* Ensure title is visible */
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     }
 
-    /* NEW: Navbar Toggle and links */
     .navbar-toggler {
         background-color: var(--text-color);
     }
+
     .navbar-nav .nav-link {
         color: var(--text-color) !important;
         margin-right: 15px;
         transition: color 0.3s;
     }
+
     .navbar-nav .nav-link:hover {
         color: var(--primary-color) !important;
     }
 
-    /* Hero section adjustments */
     .hero-header1 {
         padding-top: 150px !important;
-        /* Add top padding to accommodate the fixed navbar */
     }
 
     .text-primary {
@@ -90,25 +77,51 @@
         color: var(--secondary-color) !important;
     }
 
-    /* Control button styling */
     .controls .btn {
         min-width: 100px;
     }
 
-    /* Footer styling */
     .footer-container {
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        background-color: rgba(0, 0, 0, 0.5);
         color: var(--text-color);
         text-align: center;
         padding: 10px 0;
         z-index: 1020;
     }
 
-    /* General responsive adjustments */
+    #webcam {
+        width: 100%;
+        min-height: 360px;
+        height: 100%;
+        border-radius: 10px;
+        border: 2px solid #000;
+        object-fit: cover;
+        transform: scaleX(-1);
+        background-color: #000;
+        display: block;
+    }
+
+    #confidenceBadge {
+        display: inline-block;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: var(--primary-color);
+        font-size: 0.85rem;
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-top: 6px;
+    }
+
+    #statusMsg {
+        font-size: 0.8rem;
+        color: #aaa;
+        margin-top: 4px;
+        text-align: center;
+    }
+
     @media (max-width: 992px) {
         .hero-header1 {
             padding-top: 100px !important;
@@ -116,12 +129,13 @@
 
         .col-lg-6:nth-child(2) {
             margin-top: 3rem !important;
-            /* Less top margin on smaller screens */
         }
     }
 </style>
 
 <body>
+
+    <!-- Navbar -->
     <div class="container-fluid fixed-top" style="
         position: absolute;
         top: 0;
@@ -129,18 +143,18 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        z-index: 1030;
-      ">
+        z-index: 1030;">
         <div class="container px-0" style="display: flex; justify-content: center; width: 100%">
             <nav class="navbar navbar-dark navbar-expand-lg" style="
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* Adjusted for better layout */
-            padding: 10px 15px;
-            background-color: rgba(0, 0, 0, 0.5) !important;
-          ">
-                <a href="{{ url_for('index') }}" class="navbar-brand" style="display: flex; align-items: center; text-decoration: none">
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 15px;
+                background-color: rgba(0, 0, 0, 0.5) !important;">
+
+                <a href="{{ url_for('index') }}" class="navbar-brand"
+                    style="display: flex; align-items: center; text-decoration: none">
                     <img src="https://i.pinimg.com/736x/a3/40/b7/a340b7e04e7c4b7c3040e2067779cdff.jpg"
                         alt="College Logo" style="width: 50px; height: 50px; margin-right: 15px" />
                     <h1 class="text-primary display-6" style="margin: 0; font-size: 1.2rem; color: white">
@@ -148,29 +162,33 @@
                     </h1>
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav"
+                    aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <!-- 🔄 CHANGED: Home nav link now uses url_for('index') -->
-                            <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                            <a class="nav-link active" aria-current="page"
+                                href="{{ url_for('index') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <!-- 🔄 CHANGED: Team nav link now uses url_for('team') for robustness -->
                             <a class="nav-link" href="{{ url_for('team') }}">Our Team</a>
                         </li>
                     </ul>
                 </div>
-
             </nav>
         </div>
     </div>
+
+    <!-- Main Content -->
     <div class="container-fluid py-5 mb-5 hero-header1">
         <div class="container py-5">
             <div class="row g-5 align-items-center">
+
+                <!-- Left: Info + Carousel -->
                 <div class="col-md-12 col-lg-6">
                     <h4 class="mb-3 text">Convert Sign language to Text Live</h4>
                     <h1 class="mb-5 display-3 text-primary"
@@ -181,96 +199,157 @@
                         <div class="carousel-inner" role="listbox">
                             <div class="carousel-item active rounded">
                                 <img src="https://raw.githubusercontent.com/uzibytes/Sign2Text/master/hand-signs-of-the-ASL-Language.png"
-                                    class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide: ASL signs"
+                                    class="img-fluid w-100 h-100 bg-secondary rounded"
+                                    alt="First slide: ASL signs"
                                     style="width: 100%; height: 100%; border-radius: 10px; border: 2px solid #000;" />
                             </div>
                             <div class="carousel-item rounded">
                                 <img src="https://i.ibb.co/ZJ7858c/customsl.jpg"
-                                    class="img-fluid w-100 h-100 bg-secondary rounded" alt="Second slide: Custom signs"
+                                    class="img-fluid w-100 h-100 bg-secondary rounded"
+                                    alt="Second slide: Custom signs"
                                     style="width: 100%; height: 100%; border-radius: 10px; border: 2px solid #000;" />
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselId"
-                            data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button"
+                            data-bs-target="#carouselId" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselId"
-                            data-bs-slide="next">
+                        <button class="carousel-control-next" type="button"
+                            data-bs-target="#carouselId" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
                     </div>
                 </div>
 
+                <!-- Right: Webcam + Controls -->
                 <div class="col-md-12 col-lg-6" style="margin-top: 8rem !important;">
-                    <img src="{{ url_for('video_feed') }}" class="img-fluid w-100 h-100 bg-secondary rounded"
-                        alt="Video Feed displaying sign language detection"
-                        style="width: 100%; height: 100%; border-radius: 10px; border: 2px solid #000;" />
+
+                    <!-- Live webcam feed from browser -->
+                    <video id="webcam" autoplay playsinline></video>
+
+                    <!-- Hidden canvas to capture frames -->
+                    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+
+                    <!-- Status and confidence -->
+                    <div class="text-center mt-2">
+                        <span id="confidenceBadge">Confidence: --%</span>
+                        <p id="statusMsg">Starting camera...</p>
+                    </div>
+
+                    <!-- Controls -->
                     <div class="controls d-flex align-items-center mt-3">
                         <input type="text" id="translatedText" class="form-control me-2"
-                            placeholder="Translated text will appear here" aria-label="Translated text">
+                            placeholder="Translated text will appear here"
+                            aria-label="Translated text">
                         <button type="button" id="resetButton" class="btn btn-danger me-2">Reset</button>
                         <button type="button" id="speakButton" class="btn btn-primary">Speak</button>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <div class="footer-container">
         <p class="mb-0">
-            &copy; <span id="currentYear"></span> Sign-2-Text. All Rights Reserved. Designed by **Aadi**
+            &copy; <span id="currentYear"></span> Sign-2-Text. All Rights Reserved. Designed by Aadi
         </p>
     </div>
-    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
-            class="fa fa-arrow-up"></i></a>
+
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top">
+        <i class="fa fa-arrow-up"></i>
+    </a>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+
     <script>
-        // Set the current year for the copyright notice
+        // Footer year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Disable automatic carousel cycling
-        var carouselElement = document.getElementById("carouselId");
-        var carousel = new bootstrap.Carousel(carouselElement, {
+        // Carousel
+        var carousel = new bootstrap.Carousel(document.getElementById("carouselId"), {
             interval: false,
-            wrap: false,
+            wrap: false
         });
 
-        // Socket.IO for real-time text updates
-        const socket = io();
+        // --- Webcam Setup ---
+        const video = document.getElementById('webcam');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const statusMsg = document.getElementById('statusMsg');
 
-        // Update the translatedText input with the prediction
-        socket.on('prediction', function (data) {
-            const translatedText = document.getElementById('translatedText');
-            translatedText.value = data.text;
-        });
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                statusMsg.textContent = 'Camera active. Show your hand!';
+                statusMsg.style.color = '#90ee90';
+            })
+            .catch(err => {
+                statusMsg.textContent = 'Camera access denied. Please allow camera permission.';
+                statusMsg.style.color = '#ff6b6b';
+                console.error('Webcam error:', err);
+            });
 
-        // Reset button functionality
+        // --- Send frame to /predict every 800ms ---
+        let lastPrediction = '';
+        let isPredicting = false;
+
+        setInterval(() => {
+            // Skip if camera not ready or a request is already in flight
+            if (video.readyState !== video.HAVE_ENOUGH_DATA || isPredicting) return;
+
+            isPredicting = true;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/jpeg', 0.8);
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: imageData })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.prediction) {
+                    // Only append if prediction changed
+                    if (data.prediction !== lastPrediction) {
+                        document.getElementById('translatedText').value += data.prediction + ' ';
+                        lastPrediction = data.prediction;
+                    }
+                    document.getElementById('confidenceBadge').textContent =
+                        'Confidence: ' + data.confidence + '%';
+                } else {
+                    document.getElementById('confidenceBadge').textContent = 'Confidence: --%';
+                    lastPrediction = '';
+                }
+            })
+            .catch(err => console.error('Predict error:', err))
+            .finally(() => { isPredicting = false; });
+
+        }, 800);
+
+        // Reset button
         document.getElementById('resetButton').addEventListener('click', function () {
             document.getElementById('translatedText').value = '';
+            lastPrediction = '';
+            document.getElementById('confidenceBadge').textContent = 'Confidence: --%';
         });
 
-
-        // Speak button functionality (Text-to-Speech)
+        // Speak button
         document.getElementById('speakButton').addEventListener('click', function () {
-            const text = document.getElementById('translatedText').value;
+            const text = document.getElementById('translatedText').value.trim();
             if (text) {
                 const utterance = new SpeechSynthesisUtterance(text);
-
-                // Find a preferred voice, default to the first one available
                 const voices = speechSynthesis.getVoices();
-                utterance.voice = voices.find(voice => voice.name === 'Google UK English Female') || voices[0];
-                utterance.rate = 1.0; // Speed (0.1 to 10)
-
+                utterance.voice = voices.find(v => v.name === 'Google UK English Female') || voices[0];
+                utterance.rate = 1.0;
                 speechSynthesis.speak(utterance);
             }
         });
     </script>
 
 </body>
-
 </html>
